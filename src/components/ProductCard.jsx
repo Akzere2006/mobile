@@ -1,0 +1,8 @@
+import { Heart, ShoppingBag, Star } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { formatPrice, getDiscount } from '../data/products'
+import { useStore } from '../context/StoreContext'
+export default function ProductCard({product}) {
+ const {favorites,toggleFavorite,addToCart}=useStore()
+ return <article className="product-card"><div className="product-image-wrap"><Link to={`/product/${product.id}`} className="product-image"><img src={product.image} alt={product.name} loading="lazy"/>{product.badge&&<span className="product-badge">{product.badge}</span>}{getDiscount(product)>0&&<span className="discount">−{getDiscount(product)}%</span>}</Link><button className={`favorite-button ${favorites.includes(product.id)?'is-favorite':''}`} aria-label={favorites.includes(product.id)?'Убрать из избранного':'В избранное'} onClick={()=>toggleFavorite(product.id)}><Heart size={18} fill={favorites.includes(product.id)?'currentColor':'none'}/></button></div><div className="product-info"><span className="product-brand">{product.brand}</span><Link to={`/product/${product.id}`} className="product-name">{product.name}</Link><div className="rating"><Star size={14} fill="currentColor"/><b>{product.rating}</b><span>({product.reviews})</span></div><div className="price-row"><div><strong>{formatPrice(product.price)}</strong>{product.oldPrice&&<del>{formatPrice(product.oldPrice)}</del>}</div><button className="add-small" aria-label="Добавить в корзину" disabled={!product.inStock} onClick={()=>addToCart(product.id)}><ShoppingBag size={17}/></button></div><span className={`stock ${product.inStock?'':'out-stock'}`}>{product.inStock?'В наличии':'Нет в наличии'}</span></div></article>
+}

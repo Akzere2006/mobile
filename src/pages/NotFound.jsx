@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom'
+export default function NotFound(){return <div className="container page-wrap empty-state not-found"><span className="error-code">404</span><h1>Кажется, вы свернули не туда</h1><p>Страница не найдена или была перемещена.</p><Link className="button button-dark" to="/">На главную</Link></div>}
